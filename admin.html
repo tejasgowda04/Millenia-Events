@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | Millennia Events</title>
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
   <script>
     tailwind.config = {
       theme: {
@@ -31,25 +34,50 @@
     }
   </script>
   <style>
-    body { background-color: #111111; color: white; display: flex; flex-direction: column; min-height: 100vh; }
-    .loader { border-top-color: #C9A84C; border-left-color: #C9A84C; animation: spinner 1s linear infinite; }
-    @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    body {
+      background-color: #111111;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .loader {
+      border-top-color: #C9A84C;
+      border-left-color: #C9A84C;
+      animation: spinner 1s linear infinite;
+    }
+
+    @keyframes spinner {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
+
 <body class="font-sans antialiased text-white/80 pb-20">
 
   <!-- ==========================================
        LOGIN OVERLAY
        ========================================== -->
   <div id="loginOverlay" class="fixed inset-0 bg-dark z-50 flex flex-col items-center justify-center px-6">
-    <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-gold/20 to-transparent border border-gold/30 flex items-center justify-center mb-8 shadow-[0_0_20px_rgba(201,168,76,0.15)]">
+    <div
+      class="w-16 h-16 rounded-xl bg-gradient-to-br from-gold/20 to-transparent border border-gold/30 flex items-center justify-center mb-8 shadow-[0_0_20px_rgba(201,168,76,0.15)]">
       <span class="font-serif text-gold tracking-tighter text-3xl leading-none">ME</span>
     </div>
     <h1 class="font-serif text-3xl text-champagne mb-6 text-center">Admin Access</h1>
-    
+
     <div class="w-full max-w-sm flex flex-col gap-4">
-      <input type="password" id="adminPassword" class="w-full bg-surface border border-white/20 rounded-lg p-4 text-center focus:border-gold outline-none tracking-widest text-white transition-colors" placeholder="Enter Password">
-      <button onclick="checkAdminPassword()" class="bg-gold text-dark font-medium py-4 rounded-lg hover:bg-white transition-colors uppercase tracking-widest text-sm w-full">
+      <input type="password" id="adminPassword"
+        class="w-full bg-surface border border-white/20 rounded-lg p-4 text-center focus:border-gold outline-none tracking-widest text-white transition-colors"
+        placeholder="Enter Password">
+      <button onclick="checkAdminPassword()"
+        class="bg-gold text-dark font-medium py-4 rounded-lg hover:bg-white transition-colors uppercase tracking-widest text-sm w-full">
         Unlock Dashboard
       </button>
       <p id="loginError" class="text-red-400 text-sm text-center hidden">Incorrect password.</p>
@@ -60,7 +88,7 @@
        MAIN DASHBOARD
        ========================================== -->
   <div id="mainDashboard" class="hidden w-full max-w-7xl mx-auto px-6 pt-12">
-    
+
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-8 border-b border-white/10 mb-8">
       <div>
         <h1 class="font-serif text-4xl text-champagne mb-2">Registration Dashboard</h1>
@@ -69,10 +97,13 @@
       <div class="flex items-center gap-4">
         <!-- Live Search Box -->
         <div class="relative w-full md:w-64">
-          <iconify-icon icon="solar:magnifer-linear" class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-lg"></iconify-icon>
-          <input type="text" id="searchInput" oninput="filterTable()" placeholder="Search Name or UTR..." class="w-full pl-10 pr-4 py-2.5 bg-surface border border-white/10 rounded-lg text-sm text-white focus:border-gold outline-none placeholder:text-white/30 transition-colors">
+          <iconify-icon icon="solar:magnifer-linear"
+            class="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 text-lg"></iconify-icon>
+          <input type="text" id="searchInput" oninput="filterTable()" placeholder="Search Name or UTR..."
+            class="w-full pl-10 pr-4 py-2.5 bg-surface border border-white/10 rounded-lg text-sm text-white focus:border-gold outline-none placeholder:text-white/30 transition-colors">
         </div>
-        <button onclick="fetchData()" class="bg-surface border border-white/10 px-4 py-2.5 rounded-lg hover:border-gold hover:text-gold transition-colors flex items-center justify-center">
+        <button onclick="fetchData()"
+          class="bg-surface border border-white/10 px-4 py-2.5 rounded-lg hover:border-gold hover:text-gold transition-colors flex items-center justify-center">
           <iconify-icon icon="solar:refresh-linear" class="text-xl"></iconify-icon>
         </button>
       </div>
@@ -91,12 +122,12 @@
         </thead>
         <tbody id="dataTable" class="text-sm divide-y divide-white/5">
           <!-- Rows inject here -->
-           <tr>
-             <td colspan="5" class="py-12 text-center text-white/40">
-                <div class="w-8 h-8 border-2 border-transparent loader rounded-full mx-auto mb-3"></div>
-                Loading data from Google Sheets...
-             </td>
-           </tr>
+          <tr>
+            <td colspan="5" class="py-12 text-center text-white/40">
+              <div class="w-8 h-8 border-2 border-transparent loader rounded-full mx-auto mb-3"></div>
+              Loading data from Google Sheets...
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -129,7 +160,7 @@
     async function fetchData() {
       const tbody = document.getElementById('dataTable');
       tbody.innerHTML = `<tr><td colspan="5" class="py-12 text-center text-white/40"><div class="w-8 h-8 border-2 border-transparent loader rounded-full mx-auto mb-3"></div>Fetching latest registrations...</td></tr>`;
-      
+
       try {
         const response = await fetch(SHEET_URL);
         guests = await response.json();
@@ -153,9 +184,9 @@
       dataArray.forEach(guest => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-white/5 transition-colors group';
-        
+
         const isConfirmed = guest.status === 'Confirmed ✓';
-        
+
         tr.innerHTML = `
           <td class="py-4 px-6">
             <p class="font-medium text-champagne">${guest.name || 'N/A'}</p>
@@ -165,22 +196,22 @@
             <p class="text-white">${guest.email || 'N/A'}</p>
             <p class="text-xs text-gold mt-1">${guest.mobile || ''}</p>
           </td>
-          <td class="py-4 px-6 text-white/70">${guest.business || 'N/A'}</td>
+          <td class="py-4 px-6 text-white/70">${guest.business || guest.busines || 'N/A'}</td>
           <td class="py-4 px-6">
             <span class="bg-dark border border-white/10 px-3 py-1.5 rounded text-xs font-mono tracking-widest text-white/80 select-all inline-block">${guest.utr || 'N/A'}</span>
           </td>
           <td class="py-4 px-6 text-center">
-            ${isConfirmed ? 
-              `<span class="text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-400/20 text-xs tracking-widest uppercase flex items-center justify-center gap-1 w-max mx-auto">
+            ${isConfirmed ?
+            `<span class="text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-400/20 text-xs tracking-widest uppercase flex items-center justify-center gap-1 w-max mx-auto">
                  <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Confirmed
-               </span>` 
-              : 
-              `<button onclick="confirmGuest(${guest.rowIndex}, '${guest.name}', '${guest.email}')" 
+               </span>`
+            :
+            `<button onclick="confirmGuest(${guest.rowIndex}, '${guest.name}', '${guest.email}')" 
                   class="bg-gold/10 hover:bg-gold text-gold hover:text-dark border border-gold/30 hover:border-gold px-4 py-2 rounded text-xs uppercase tracking-widest transition-all duration-300 w-max mx-auto flex items-center gap-2">
                  <iconify-icon icon="solar:mailbox-linear" class="text-sm"></iconify-icon>
                  Confirm & Email
                </button>`
-            }
+          }
           </td>
         `;
         tbody.appendChild(tr);
@@ -191,9 +222,9 @@
     function filterTable() {
       const query = document.getElementById('searchInput').value.toLowerCase();
       const filtered = guests.filter(g => {
-        return (g.name || '').toLowerCase().includes(query) || 
-               (g.utr || '').toLowerCase().includes(query) ||
-               (g.email || '').toLowerCase().includes(query);
+        return (g.name || '').toLowerCase().includes(query) ||
+          (g.utr || '').toLowerCase().includes(query) ||
+          (g.email || '').toLowerCase().includes(query);
       });
       renderTable(filtered);
     }
@@ -210,23 +241,23 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: guestName, email: guestEmail })
         });
-        
+
         if (!emailReq.ok) {
-           const errStr = await emailReq.text();
-           throw new Error("Email sending failed: " + errStr);
+          const errStr = await emailReq.text();
+          throw new Error("Email sending failed: " + errStr);
         }
 
         // Step 2: Mark as confirmed in Google Sheet
         const formData = new FormData();
         formData.append('action', 'confirm');
         formData.append('rowIndex', rowIndex);
-        
+
         // no-cors is required to bypass strictly sending POSTs to Google Apps Script
         await fetch(SHEET_URL, { method: 'POST', body: formData, mode: 'no-cors' });
-        
+
         alert(`Success! Email dispatched to ${guestEmail} and marked Confirmed.`);
         fetchData(); // Reload table
-        
+
       } catch (err) {
         console.error(err);
         alert('Error: ' + err.message + '\n\nPlease ensure your Vercel SMTP settings are configured.');
@@ -234,4 +265,5 @@
     }
   </script>
 </body>
+
 </html>
