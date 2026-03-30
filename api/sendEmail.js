@@ -46,8 +46,8 @@ module.exports = async function handler(req, res) {
             
             <div style="background-color: #1A1A1A; border: 1px solid #C9A84C; border-radius: 6px; padding: 20px; margin: 30px 0;">
               <p style="margin: 0; color: #C9A84C; font-weight: bold; font-size: 14px; text-transform: uppercase;">Event Details</p>
-              <p style="margin: 10px 0 5px 0; color: #ffffff;">📅 <strong>Date:</strong> May 02, 2026</p>
-              <p style="margin: 0; color: #ffffff;">📍 <strong>Venue:</strong> Will be shared closer to the event</p>
+              <p style="margin: 10px 0 5px 0; color: #ffffff;">📅 <strong>Date:</strong> 9th May 2026 Saturday 5pm</p>
+              <p style="margin: 0; color: #ffffff;">📍 <strong>Venue:</strong> Amaravathi Hotel , Mandya</p>
             </div>
             
             <p style="font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.8);">
@@ -61,12 +61,18 @@ module.exports = async function handler(req, res) {
           </div>
           
         </div>
-      `
+      `,
+      attachments: [
+        {
+          filename: 'event2.jpeg',
+          path: require('path').join(process.cwd(), 'event2.jpeg')
+        }
+      ]
     };
 
     // Send the email
     await transporter.sendMail(mailOptions);
-    
+
     return res.status(200).json({ success: true, message: 'Email sent successfully' });
   } catch (error) {
     console.error('SMTP Error:', error);
